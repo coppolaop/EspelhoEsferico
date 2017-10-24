@@ -5,6 +5,18 @@ void setup() {
   img = loadImage("papaleguas.png");
 }
 
+float EquacaoRetaY(float x1, float y1, float x2, float y2, float x) { //calcula a altura do ponto na reta de acordo com a largura
+  float coeficiente = (y2 - y1)/(x2 - x1);
+  float y = (coeficiente * (x - x1)) + y1;
+  return y;
+}
+
+float EquacaoRetaX(float x1, float y1, float x2, float y2, float y) {//calcula a largura do ponto na reta de acordo com a altura
+  float coeficiente = (y2 - y1)/(x2 - x1);
+  float x = ((y-y1)/coeficiente)+x1;
+  return x;
+}
+
 void draw() {
   Integer objeto = 50;//altura e largura do Objeto
   int imagem = objeto;
@@ -14,7 +26,7 @@ void draw() {
   Integer foco = centro + raio/2;
   
   double pitagoras = Math.sqrt(((raio*raio)-(objeto*objeto)));//distancia entre o centro do espelho e o ponto
-  float ponto = (float)((this.width/2) - raio + pitagoras);//ponto do espelho onde o topo do objeto é refletido
+  float ponto1 = (float)((this.width/2) - raio + pitagoras);//ponto do espelho onde o topo do objeto é refletido
   
   
   background(0);
@@ -35,9 +47,10 @@ void draw() {
       text("Imagem: Real", 330, 65);
       
       stroke(0, 255, 0);//cor das linhas de reflexo
-      line(mouseX-img.width/2, this.height/2 - objeto, ponto, this.height/2 - objeto);
-      line(ponto, this.height/2 - objeto, foco, this.height/2);
+      line(mouseX-img.width/2, this.height/2 - objeto, ponto1, this.height/2 - objeto);
+      line(ponto1, this.height/2 - objeto, foco, this.height/2);
       line(mouseX-img.width/2, this.height/2 - objeto, foco, this.height/2);
+      line(foco, this.height/2, EquacaoRetaX(ponto1, this.height/2 - objeto, foco, this.height/2, this.height), this.height);
       
     }else{//imagem na parte de baixo
       img.resize(objeto, objeto);
