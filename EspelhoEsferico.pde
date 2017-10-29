@@ -27,7 +27,7 @@ float aumentoLinear(float PLinha, float P){
 }
 
 void draw() {
-  Integer vObjeto = 50;//altura e largura do Objeto
+  Integer vObjeto = this.height/2 - mouseY;//altura e largura do Objeto
   PVector pObjeto = new PVector(mouseX, this.height/2 - vObjeto);//posição do centro do objeto
   
   PVector pImagem = new PVector(mouseX, this.height/2 - vObjeto);
@@ -59,22 +59,19 @@ void draw() {
       vImagem = aumentoLinear(this.width/2 - pImagem.x,this.width/2 - pObjeto.x) * vObjeto;
       pImagem.y = this.height/2 + Math.abs(vImagem);
       
-      //centimetros = pixels
-      text("Distancia entre o centro do objeto e o espelho: " + (this.width/2 -pObjeto.x) + " cm", 330, vObjeto);
-      
       if(pObjeto.x<pFoco.x){//imagem antes do foco
         stroke(0, 255, 0);//cor das linhas de reflexo
         line(pObjeto.x, pObjeto.y, ponto1.x, ponto1.y);//topo do objeto ate espelho
         line(ponto1.x, ponto1.y, pFoco.x, pFoco.y);//espelho ate foco
         line(pObjeto.x, pObjeto.y, pFoco.x, pFoco.y);//topo do objeto ate foco
-        line(pFoco.x, pFoco.y, equacaoRetaX(ponto1.x, ponto1.y, pFoco.x, pFoco.y, this.height), this.height);//linha refletida do foco ate canto
+        line(pFoco.x, pFoco.y, equacaoRetaX(pImagem.x, pImagem.y, pFoco.x, pFoco.y, this.height), this.height);//linha refletida do foco ate canto
       
-        //Inicio Objeto
+        //Inicio Imagem
         stroke(255, 0, 0);//cor das linhas de reflexo
         line(pImagem.x, pImagem.y, pImagem.x , this.height/2);
         line(pImagem.x, pImagem.y, pImagem.x + 5, pImagem.y - 5);
         line(pImagem.x, pImagem.y, pImagem.x - 5, pImagem.y - 5);
-        //Fim Objeto
+        //Fim Imagem
         
         if(pImagem.x < pCentro.x){
           text("Imagem: Real, Invertida e Maior", 330, 65);
@@ -128,7 +125,7 @@ void draw() {
         line(pObjeto.x, pObjeto.y, ponto1.x, ponto1.y);//topo do objeto ate espelho
         line(ponto1.x, ponto1.y, equacaoRetaX(ponto1.x, ponto1.y, pFoco.x, pFoco.y, this.height), this.height);//espelho ate o infinito
         line(pObjeto.x, pObjeto.y, this.width/2, this.height/2);//Topo do objeto ao centro da imagem
-        line(this.width/2, this.height/2, equacaoRetaX(pObjeto.x, pObjeto.y + 2*vObjeto, this.width/2, this.height/2, this.height), this.height);//centro do espelho até o infinito
+        line(this.width/2, this.height/2, equacaoRetaX(ponto1.x, ponto1.y, pFoco.x, pFoco.y, this.height)+vFoco, this.height);//centro do espelho até o infinito
       }
       
     }else{//imagem na parte de baixo
@@ -139,7 +136,7 @@ void draw() {
       ////imagem refletida
       //pushMatrix();
       //translate(img.width, 0);
-      //scale(-1, 1); // You had it right!
+      //scale(-1, 1);
       //image(img, (-640 + (mouseX+img.width/2)), this.height/2);
       //popMatrix();
       ////centimetros = pixels
@@ -148,31 +145,48 @@ void draw() {
     }
   }else{//Espelho convexo
     if(mouseY < this.height/2){//Imagem na parte de cima
-      //img.resize(objeto, objeto);
-      ////imagem do cursor
-      //image(img, mouseX-img.width/2, this.height/2 - img.height);
       
+      pImagem.x = this.width/2 - equacaoGauss(vFoco, this.width/2 - pObjeto.x);
+      vImagem = aumentoLinear(this.width/2 - pImagem.x,this.width/2 - pObjeto.x) * vObjeto;
+      pImagem.y = this.height/2 - Math.abs(vImagem);
       
-      //if(imagem > 0){
-      //  img.resize(objeto,imagem);
-      //}else{
-        
-      //}
-      ////imagem refletida
-      //pushMatrix();
-      //translate(img.width, 0);
-      //scale(-1, 1); // You had it right!
-      ////(-640 + (mouseX+img.width/2))
-      ////image(img, -this.width/2 + (distanciaImagem) , this.height/2-img.height);
-      //popMatrix();
-      ////centimetros = pixels
-      //text("Distancia entre o centro da imagem e o espelho: " + (320 -(mouseX)) + " cm", 330, 50);
-      //text("Imagem: Real", 330, 65);
+      //Inicio Objeto
+      stroke(255, 0, 0);//cor das linhas de reflexo
+      line(pObjeto.x, pObjeto.y, pObjeto.x , this.height/2);
+      line(pObjeto.x, pObjeto.y, pObjeto.x - 5, pObjeto.y + 5);
+      line(pObjeto.x, pObjeto.y, pObjeto.x + 5, pObjeto.y + 5);
+      //Fim Objeto
+      
+      stroke(0, 255, 0);//cor das linhas de reflexo
+      line(pObjeto.x, pObjeto.y, ponto1.x, ponto1.y);//topo do objeto ate espelho
+      line(pObjeto.x, pObjeto.y, this.width/2, this.height/2);//topo do objeto ate o centro do espelho
+      line(this.width/2, this.height/2, pObjeto.x, pObjeto.y + 2*vObjeto);//Reflexão do centro do espelho
+      line(ponto1.x, ponto1.y, pObjeto.x, equacaoRetaY(ponto1.x, ponto1.y, pFoco.x, pFoco.y, pObjeto.x));
+      
+      stroke(0, 0, 255);//cor das linhas do outro lado do espelho
+      line(ponto1.x, ponto1.y, pFoco.x, pFoco.y);
+      line(this.width/2, this.height/2, pImagem.x, pImagem.y);
+      
+      //Inicio Imagem
+      stroke(255, 0, 0);//cor das linhas de reflexo
+      line(pImagem.x, pImagem.y, pImagem.x , this.height/2);
+      line(pImagem.x, pImagem.y, pImagem.x - 5, pImagem.y + 5);
+      line(pImagem.x, pImagem.y, pImagem.x + 5, pImagem.y + 5);
+       //Fim Imagem
+      
+      text("Imagem: Virtual, Direita e Menor", 330, 65);
       
     }else{//imagem na parte de baixo
     
     }
   }
+  
+  //centimetros = pixels
+  text("Distancia entre o objeto e o espelho: " + Math.abs(this.width/2 -pObjeto.x) + " cm", 330, 35);
+  text("Distancia entre a imagem e o espelho: " + Math.abs(this.width/2 -pImagem.x) + " cm", 330, 50);
+  text("Tamanho do Objeto: " + (vObjeto) + " cm", 330, 80);
+  text("Tamanho da Imagem: " + Math.abs(vImagem) + " cm", 330, 95);
+  
   stroke(255, 255, 255);//cor da linha
   //Linha Horizontal
   line(0, this.height/2, this.width, this.height/2);
@@ -182,14 +196,9 @@ void draw() {
   //Foco
   line(pFoco.x, this.height/2 - 2, pFoco.x , this.height/2 + 2);
   
-  stroke(20, 20, 20);//cor do arco
-  //Linha Vertical
-  line(this.width/2, 0, this.width/2, this.height);
-
-  //Espelho
+  //Inicio Espelho
   noFill();//preenchimento interior do arco
   stroke(204, 102, 0);//cor do arco
   arc(this.width/2 - raio, this.height/2, raio*2, raio*2, -QUARTER_PI, QUARTER_PI);//arco(Espelho)
-
-  stroke(255);
+  //Fim Espelho
 }
