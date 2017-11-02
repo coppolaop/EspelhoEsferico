@@ -64,31 +64,31 @@ void draw() {
       pitagoras = (float) Math.sqrt(((raio*raio)-(vImagem*vImagem)));//distancia entre o centro do espelho e o ponto2
       PVector ponto2 = new PVector((pCentro.x+ pitagoras),this.height/2 - vImagem);//ponto do espelho onde o topo passa pelo foco e é refletido
       
-      if(alturaMaxima>vObjeto){
-        stroke(0, 255, 0);//cor das linhas de reflexão
-        line(pObjeto.x, pObjeto.y, ponto1.x, ponto1.y);//topo do objeto ate espelho
-        stroke(0, 255, 255);//cor das linhas de reflexo
-        line(ponto1.x, ponto1.y, equacaoRetaX(ponto1.x, ponto1.y, pImagem.x, pImagem.y, this.height), this.height);
-      }else{
-        tamanhoCerto = false;
-        text("Objeto Maior que o espelho", this.width/1.30, 65);
-        stroke(0, 255, 0);//cor das linhas de reflexão
-        line(pObjeto.x, pObjeto.y, this.width, equacaoRetaY(pObjeto.x, pObjeto.y, ponto1.x, ponto1.y, this.width));//topo do objeto ate espelho
-      }
-      
-      if(alturaMaxima>-vImagem){
-        stroke(0, 255, 0);//cor das linhas de reflexão
-        line(pObjeto.x, pObjeto.y, equacaoRetaX(pObjeto.x, pObjeto.y, pFoco.x, pFoco.y, ponto2.y), ponto2.y);
-        stroke(0, 255, 255);//cor das linhas de reflexo
-        line(ponto2.x, ponto2.y, 0, equacaoRetaY(ponto2.x, ponto2.y, pImagem.x, pImagem.y, 0));//ponto 2 do espelho ate imagem
-      }else{
-        tamanhoCerto = false;
-        text("Imagem Maior que o espelho", this.width/1.30, 80);
-        stroke(0, 255, 0);//cor das linhas de reflexão
-        line(pObjeto.x, pObjeto.y, equacaoRetaX(pObjeto.x, pObjeto.y, pFoco.x, pFoco.y, this.height), this.height);
-      }
-      
       if(pObjeto.x<pFoco.x){//imagem antes do foco
+        if(alturaMaxima>vObjeto){
+          stroke(0, 255, 0);//cor das linhas de reflexão
+          line(pObjeto.x, pObjeto.y, ponto1.x, ponto1.y);//topo do objeto ate espelho
+          stroke(0, 255, 255);//cor das linhas de reflexo
+          line(ponto1.x, ponto1.y, equacaoRetaX(ponto1.x, ponto1.y, pImagem.x, pImagem.y, this.height), this.height);
+        }else{
+          tamanhoCerto = false;
+          text("Objeto Maior que o espelho", this.width/1.30, 65);
+          stroke(0, 255, 0);//cor das linhas de reflexão
+          line(pObjeto.x, pObjeto.y, this.width, equacaoRetaY(pObjeto.x, pObjeto.y, ponto1.x, ponto1.y, this.width));//topo do objeto ate espelho
+        }
+        
+        if(alturaMaxima>-vImagem){
+          stroke(0, 255, 0);//cor das linhas de reflexão
+          line(pObjeto.x, pObjeto.y, equacaoRetaX(pObjeto.x, pObjeto.y, pFoco.x, pFoco.y, ponto2.y), ponto2.y);
+          stroke(0, 255, 255);//cor das linhas de reflexo
+          line(ponto2.x, ponto2.y, 0, equacaoRetaY(ponto2.x, ponto2.y, pImagem.x, pImagem.y, 0));//ponto 2 do espelho ate imagem
+        }else{
+          tamanhoCerto = false;
+          text("Imagem Maior que o espelho", this.width/1.30, 80);
+          stroke(0, 255, 0);//cor das linhas de reflexão
+          line(pObjeto.x, pObjeto.y, equacaoRetaX(pObjeto.x, pObjeto.y, pFoco.x, pFoco.y, this.height), this.height);
+        }
+        
         if(tamanhoCerto){
           //Inicio Imagem
           stroke(255, 0, 0);//cor das linhas de reflexo
@@ -108,49 +108,161 @@ void draw() {
         
       }else if(pObjeto.x > pFoco.x){//imagem depois do foco
         pImagem.y -= 2*vImagem;
-        //Inicio Objeto
-        stroke(255, 0, 0);//cor das linhas de reflexo
-        line(pImagem.x, pImagem.y, pImagem.x , this.height/2);
-        line(pImagem.x, pImagem.y, pImagem.x - 5, pImagem.y + 5);
-        line(pImagem.x, pImagem.y, pImagem.x + 5, pImagem.y + 5);
-        //Fim Objeto
         
-        text("Imagem: Virtual, Direita e Maior", this.width/1.30, 65);
+        if(alturaMaxima>vObjeto){
+          //Inicio Imagem
+          stroke(255, 0, 0);//cor da Imagem
+          line(pImagem.x, pImagem.y, pImagem.x , this.height/2);
+          line(pImagem.x, pImagem.y, pImagem.x - 5, pImagem.y + 5);
+          line(pImagem.x, pImagem.y, pImagem.x + 5, pImagem.y + 5);
+          //Fim Imagem
+            
+          text("Imagem: Virtual, Direita e Maior", this.width/1.30, 65);
+          
+          stroke(0, 255, 0);//cor das linhas de reflexo
+          line(pObjeto.x, pObjeto.y, ponto1.x, ponto1.y);//topo do objeto ate espelho
+          line(ponto1.x, ponto1.y, pFoco.x, pFoco.y);//espelho ate foco
+          line(pObjeto.x, pObjeto.y, this.width/2, this.height/2);//topo do objeto ate o centro da imagem
+          line(this.width/2, this.height/2, equacaoRetaX(pObjeto.x, pObjeto.y + 2*vObjeto, this.width/2, this.height/2, this.height), this.height);//centro da imagem até o infinito
+          
+          stroke(0, 0, 255);//cor das linhas do outro lado do espelho
+          line(ponto1.x, ponto1.y, pImagem.x, pImagem.y);//Ponto do espelho até o topo da imagem
+          line(this.width/2, this.height/2, pImagem.x, pImagem.y);//centro do espelho ate o topo da imagem
+        }else{
+          tamanhoCerto = false;
+          stroke(0, 255, 0);//cor das linhas de reflexo
+          text("Objeto Maior que o espelho", this.width/1.30, 65);
+          line(pObjeto.x, pObjeto.y, this.width, equacaoRetaY(pObjeto.x, pObjeto.y, ponto1.x, ponto1.y, this.width));//topo do objeto ate espelho
+          line(pObjeto.x, pObjeto.y, this.width/2, this.height/2);//topo do objeto ate o centro da imagem
+          line(this.width/2, this.height/2, equacaoRetaX(pObjeto.x, pObjeto.y + 2*vObjeto, this.width/2, this.height/2, this.height), this.height);//centro da imagem até o infinito
+        }
         
-        stroke(0, 255, 0);//cor das linhas de reflexo
-        line(pObjeto.x, pObjeto.y, ponto1.x, ponto1.y);//topo do objeto ate espelho
-        line(ponto1.x, ponto1.y, pFoco.x, pFoco.y);//espelho ate foco
-        line(pObjeto.x, pObjeto.y, this.width/2, this.height/2);//topo do objeto ate o centro da imagem
-        line(this.width/2, this.height/2, equacaoRetaX(pObjeto.x, pObjeto.y + 2*vObjeto, this.width/2, this.height/2, this.height), this.height);//centro da imagem até o infinito
-        
-        stroke(0, 0, 255);//cor das linhas do outro lado do espelho
-        line(ponto1.x, ponto1.y, pImagem.x, pImagem.y);//Ponto do espelho até o topo da imagem
-        line(this.width/2, this.height/2, pImagem.x, pImagem.y);//centro do espelho ate o topo da imagem
-        
-        
-      }else{//imagem em cima do foco
-        text("Imagem: Imprópria", this.width/1.30, 65);
-        stroke(0, 255, 0);//cor das linhas de reflexo
-        line(pObjeto.x, pObjeto.y, ponto1.x, ponto1.y);//topo do objeto ate espelho
-        line(ponto1.x, ponto1.y, equacaoRetaX(ponto1.x, ponto1.y, pFoco.x, pFoco.y, this.height), this.height);//espelho ate o infinito
-        line(pObjeto.x, pObjeto.y, this.width/2, this.height/2);//Topo do objeto ao centro da imagem
-        line(this.width/2, this.height/2, equacaoRetaX(ponto1.x, ponto1.y, pFoco.x, pFoco.y, this.height)+vFoco, this.height);//centro do espelho até o infinito
+      }else{//Objeto em cima do foco
+        if(alturaMaxima>vObjeto){
+          tamanhoCerto = true;
+          text("Imagem: Imprópria", this.width/1.30, 65);
+          stroke(0, 255, 0);//cor das linhas de reflexo
+          line(pObjeto.x, pObjeto.y, ponto1.x, ponto1.y);//topo do objeto ate espelho
+          line(ponto1.x, ponto1.y, equacaoRetaX(ponto1.x, ponto1.y, pFoco.x, pFoco.y, this.height), this.height);//espelho ate o infinito
+          line(pObjeto.x, pObjeto.y, this.width/2, this.height/2);//Topo do objeto ao centro da imagem
+          line(this.width/2, this.height/2, equacaoRetaX(ponto1.x, ponto1.y, pFoco.x, pFoco.y, this.height)+vFoco, this.height);//centro do espelho até o infinito
+        }else{
+          tamanhoCerto = false;
+          stroke(0, 255, 0);//cor das linhas de reflexo
+          text("Objeto Maior que o espelho", this.width/1.30, 65);
+          text("Ainda bem que já não ia ter imagem mesmo kk", this.width/1.30, 80);
+          line(pObjeto.x, pObjeto.y, this.width, equacaoRetaY(pObjeto.x, pObjeto.y, ponto1.x, ponto1.y, this.width));//topo do objeto ate espelho
+          line(pObjeto.x, pObjeto.y, this.width/2, this.height/2);//topo do objeto ate o centro da imagem
+          line(this.width/2, this.height/2, equacaoRetaX(pObjeto.x, pObjeto.y + 2*vObjeto, this.width/2, this.height/2, this.height), this.height);//centro da imagem até o infinito
+        }
       }
       
     }else{//imagem na parte de baixo
-      //img.resize(objeto, objeto);
-      ////imagem do cursor
-      //image(img, mouseX-img.width/2, this.height/2);
+      //Inicio Objeto
+      stroke(255, 0, 0);//cor das linhas de reflexo
+      line(pObjeto.x, pObjeto.y, pObjeto.x , this.height/2);
+      line(pObjeto.x, pObjeto.y, pObjeto.x + 5, pObjeto.y - 5);
+      line(pObjeto.x, pObjeto.y, pObjeto.x - 5, pObjeto.y - 5);
+      //Fim Objeto
       
-      ////imagem refletida
-      //pushMatrix();
-      //translate(img.width, 0);
-      //scale(-1, 1);
-      //image(img, (-640 + (mouseX+img.width/2)), this.height/2);
-      //popMatrix();
-      ////centimetros = pixels
-      //text("Distancia entre o centro do objeto e o centro do espelho: " + (320 -(mouseX)) + " cm", 330, objeto);
-      //text("Imagem: Real", 330, 65);
+      pImagem.x = this.width/2 - equacaoGauss(vFoco, this.width/2 - pObjeto.x);
+      vImagem = aumentoLinear(this.width/2 - pImagem.x,this.width/2 - pObjeto.x) * vObjeto;
+      pImagem.y = this.height/2 - Math.abs(vImagem);
+      
+      pitagoras = (float) Math.sqrt(((raio*raio)-(vImagem*vImagem)));//distancia entre o centro do espelho e o ponto2
+      PVector ponto2 = new PVector((pCentro.x+ pitagoras),this.height/2 - vImagem);//ponto do espelho onde o topo passa pelo foco e é refletido
+      
+      if(pObjeto.x<-pFoco.x){//imagem antes do foco
+        if(alturaMaxima>vObjeto){
+          stroke(0, 255, 0);//cor das linhas de reflexão
+          line(pObjeto.x, pObjeto.y, ponto1.x, ponto1.y);//topo do objeto ate espelho
+          stroke(0, 255, 255);//cor das linhas de reflexo
+          line(ponto1.x, ponto1.y, equacaoRetaX(ponto1.x, ponto1.y, pImagem.x, pImagem.y, 0), 0);
+        }else{
+          tamanhoCerto = false;
+          text("Objeto Maior que o espelho", this.width/1.30, 65);
+          stroke(0, 255, 0);//cor das linhas de reflexão
+          line(pObjeto.x, pObjeto.y, this.width, equacaoRetaY(pObjeto.x, pObjeto.y, ponto1.x, ponto1.y, this.width));//topo do objeto ate espelho
+        }
+        
+        if(alturaMaxima>vImagem){
+          stroke(0, 255, 0);//cor das linhas de reflexão
+          line(pObjeto.x, pObjeto.y, equacaoRetaX(pObjeto.x, pObjeto.y, pFoco.x, pFoco.y, ponto2.y), ponto2.y);
+          stroke(0, 255, 255);//cor das linhas de reflexo
+          line(ponto2.x, ponto2.y, 0, equacaoRetaY(ponto2.x, ponto2.y, pImagem.x, pImagem.y, 0));//ponto 2 do espelho ate imagem
+        }else{
+          tamanhoCerto = false;
+          text("Imagem Maior que o espelho", this.width/1.30, 80);
+          stroke(0, 255, 0);//cor das linhas de reflexão
+          line(pObjeto.x, pObjeto.y, equacaoRetaX(pObjeto.x, pObjeto.y, pFoco.x, pFoco.y, this.height), this.height);
+        }
+        
+        if(tamanhoCerto){
+          //Inicio Imagem
+          stroke(255, 0, 0);//cor das linhas de reflexo
+          line(pImagem.x, pImagem.y, pImagem.x , this.height/2);
+          line(pImagem.x, pImagem.y, pImagem.x - 5, pImagem.y + 5);
+          line(pImagem.x, pImagem.y, pImagem.x + 5, pImagem.y + 5);
+          //Fim Imagem
+          
+          if(pImagem.x < pCentro.x){
+            text("Imagem: Real, Invertida e Maior", this.width/1.30, 65);
+          }else if(pImagem.x >pCentro.x){
+            text("Imagem: Real, Invertida e Menor", this.width/1.30, 65);
+          }else{
+            text("Imagem: Real, Invertida e Igual", this.width/1.30, 65);
+          }
+        }
+        
+      }else if(pObjeto.x > pFoco.x){//imagem depois do foco
+        pImagem.y -= 2*vImagem;
+        
+        if(alturaMaxima>-vObjeto){
+          //Inicio Imagem
+          stroke(255, 0, 0);//cor da Imagem
+          line(pImagem.x, pImagem.y, pImagem.x , this.height/2);
+          line(pImagem.x, pImagem.y, pImagem.x + 5, pImagem.y - 5);
+          line(pImagem.x, pImagem.y, pImagem.x - 5, pImagem.y - 5);
+          //Fim Imagem
+            
+          text("Imagem: Virtual, Direita e Maior", this.width/1.30, 65);
+          
+          stroke(0, 255, 0);//cor das linhas de reflexo
+          line(pObjeto.x, pObjeto.y, ponto1.x, ponto1.y);//topo do objeto ate espelho
+          line(ponto1.x, ponto1.y, pFoco.x, pFoco.y);//espelho ate foco
+          line(pObjeto.x, pObjeto.y, this.width/2, this.height/2);//topo do objeto ate o centro da imagem
+          line(this.width/2, this.height/2, equacaoRetaX(pObjeto.x, pObjeto.y + 2*vObjeto, this.width/2, this.height/2, 0), 0);//centro da imagem até o infinito
+          
+          stroke(0, 0, 255);//cor das linhas do outro lado do espelho
+          line(ponto1.x, ponto1.y, pImagem.x, pImagem.y);//Ponto do espelho até o topo da imagem
+          line(this.width/2, this.height/2, pImagem.x, pImagem.y);//centro do espelho ate o topo da imagem
+        }else{
+          tamanhoCerto = false;
+          stroke(0, 255, 0);//cor das linhas de reflexo
+          text("Objeto Maior que o espelho", this.width/1.30, 65);
+          line(pObjeto.x, pObjeto.y, this.width, equacaoRetaY(pObjeto.x, pObjeto.y, ponto1.x, ponto1.y, this.width));//topo do objeto ate espelho
+          line(pObjeto.x, pObjeto.y, this.width/2, this.height/2);//topo do objeto ate o centro da imagem
+          line(this.width/2, this.height/2, equacaoRetaX(pObjeto.x, pObjeto.y + 2*vObjeto, this.width/2, this.height/2, this.height), this.height);//centro da imagem até o infinito
+        }
+        
+      }else{//Objeto em cima do foco
+        if(alturaMaxima>-vObjeto){
+          tamanhoCerto = true;
+          text("Imagem: Imprópria", this.width/1.30, 65);
+          stroke(0, 255, 0);//cor das linhas de reflexo
+          line(pObjeto.x, pObjeto.y, ponto1.x, ponto1.y);//topo do objeto ate espelho
+          line(ponto1.x, ponto1.y, equacaoRetaX(ponto1.x, ponto1.y, pFoco.x, pFoco.y, 0), 0);//espelho ate o infinito
+          line(pObjeto.x, pObjeto.y, this.width/2, this.height/2);//Topo do objeto ao centro da imagem
+          line(this.width/2, this.height/2, equacaoRetaX(ponto1.x, ponto1.y, pFoco.x, pFoco.y, 0)+vFoco, 0);//centro do espelho até o infinito
+        }else{
+          tamanhoCerto = false;
+          stroke(0, 255, 0);//cor das linhas de reflexo
+          text("Objeto Maior que o espelho", this.width/1.30, 65);
+          line(pObjeto.x, pObjeto.y, this.width, equacaoRetaY(pObjeto.x, pObjeto.y, ponto1.x, ponto1.y, this.width));//topo do objeto ate espelho
+          line(pObjeto.x, pObjeto.y, this.width/2, this.height/2);//topo do objeto ate o centro da imagem
+          line(this.width/2, this.height/2, equacaoRetaX(pObjeto.x, pObjeto.y + 2*vObjeto, this.width/2, this.height/2, this.height), this.height);//centro da imagem até o infinito
+        }
+      }
     }
   }else{//Espelho convexo
     if(mouseY < this.height/2){//Imagem na parte de cima
