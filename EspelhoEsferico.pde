@@ -1,5 +1,5 @@
 void setup() {
-  size(640, 360);  
+  size(1280, 360);
 }
 
 float equacaoRetaY(float x1, float y1, float x2, float y2, float x) { //calcula a altura do ponto na reta de acordo com a largura
@@ -31,23 +31,25 @@ void draw() {
   PVector pObjeto = new PVector(mouseX, this.height/2 - vObjeto);//posição do centro do objeto
   
   PVector pImagem = new PVector(mouseX, this.height/2 - vObjeto);
-  float vImagem = vObjeto;
+  float vImagem = 0;
   
-  float raio = this.height/2;//valor do raio do espelho com valor de acordo com o fundo
+  float raio = this.width/4;//valor do raio do espelho com valor de acordo com o fundo
   PVector pCentro = new PVector(this.width/2 - raio, this.height/2);
   float vCentro = raio;
   PVector pFoco = new PVector(pCentro.x + vCentro/2, this.height/2);
   float vFoco = vCentro/2;
   
-  float pitagoras = (float) Math.sqrt(((raio*raio)-(vObjeto*vObjeto)));//distancia entre o centro do espelho e o ponto
+  float pitagoras = (float) Math.sqrt(((raio*raio)-(vObjeto*vObjeto)));//distancia entre o centro do espelho e o ponto1
   PVector ponto1 = new PVector((pCentro.x + pitagoras),pObjeto.y);//ponto do espelho onde o topo do objeto é refletido
   
+  float alturaMaxima = pitagoras * 0.1763269807;//valor da base * tangente de 10° para impedir que a imagem e o objeto sejam maiores que o espelho
+  boolean tamanhoCerto = true;//Variavel que determina se o objeto e a imagem são menores que o espelho
   
   background(0);//plano de fundo preto
 
   if (mouseX < this.width/2) {//Espelho Concavo
     if(mouseY < this.height/2){//Imagem na parte de cima
-          
+      
       //Inicio Objeto
       stroke(255, 0, 0);//cor das linhas de reflexo
       line(pObjeto.x, pObjeto.y, pObjeto.x , this.height/2);
@@ -59,44 +61,51 @@ void draw() {
       vImagem = aumentoLinear(this.width/2 - pImagem.x,this.width/2 - pObjeto.x) * vObjeto;
       pImagem.y = this.height/2 + Math.abs(vImagem);
       
-      if(pObjeto.x<pFoco.x){//imagem antes do foco
-        stroke(0, 255, 0);//cor das linhas de reflexo
-        line(pObjeto.x, pObjeto.y, ponto1.x, ponto1.y);//topo do objeto ate espelho
-        line(ponto1.x, ponto1.y, pFoco.x, pFoco.y);//espelho ate foco
-        line(pObjeto.x, pObjeto.y, pFoco.x, pFoco.y);//topo do objeto ate foco
-        line(pFoco.x, pFoco.y, equacaoRetaX(pImagem.x, pImagem.y, pFoco.x, pFoco.y, this.height), this.height);//linha refletida do foco ate canto
+      pitagoras = (float) Math.sqrt(((raio*raio)-(vImagem*vImagem)));//distancia entre o centro do espelho e o ponto2
+      PVector ponto2 = new PVector((pCentro.x+ pitagoras),this.height/2 - vImagem);//ponto do espelho onde o topo passa pelo foco e é refletido
       
-        //Inicio Imagem
-        stroke(255, 0, 0);//cor das linhas de reflexo
-        line(pImagem.x, pImagem.y, pImagem.x , this.height/2);
-        line(pImagem.x, pImagem.y, pImagem.x + 5, pImagem.y - 5);
-        line(pImagem.x, pImagem.y, pImagem.x - 5, pImagem.y - 5);
-        //Fim Imagem
-        
-        if(pImagem.x < pCentro.x){
-          text("Imagem: Real, Invertida e Maior", 330, 65);
-        }else if(pImagem.x >pCentro.x){
-          text("Imagem: Real, Invertida e Menor", 330, 65);
-        }else{
-          text("Imagem: Real, Invertida e Igual", 330, 65);
+      if(alturaMaxima>vObjeto){
+        stroke(0, 255, 0);//cor das linhas de reflexão
+        line(pObjeto.x, pObjeto.y, ponto1.x, ponto1.y);//topo do objeto ate espelho
+        stroke(0, 255, 255);//cor das linhas de reflexo
+        line(ponto1.x, ponto1.y, equacaoRetaX(ponto1.x, ponto1.y, pImagem.x, pImagem.y, this.height), this.height);
+      }else{
+        tamanhoCerto = false;
+        text("Objeto Maior que o espelho", this.width/1.30, 65);
+        stroke(0, 255, 0);//cor das linhas de reflexão
+        line(pObjeto.x, pObjeto.y, this.width, equacaoRetaY(pObjeto.x, pObjeto.y, ponto1.x, ponto1.y, this.width));//topo do objeto ate espelho
+      }
+      
+      if(alturaMaxima>-vImagem){
+        stroke(0, 255, 0);//cor das linhas de reflexão
+        line(pObjeto.x, pObjeto.y, equacaoRetaX(pObjeto.x, pObjeto.y, pFoco.x, pFoco.y, ponto2.y), ponto2.y);
+        stroke(0, 255, 255);//cor das linhas de reflexo
+        line(ponto2.x, ponto2.y, 0, equacaoRetaY(ponto2.x, ponto2.y, pImagem.x, pImagem.y, 0));//ponto 2 do espelho ate imagem
+      }else{
+        tamanhoCerto = false;
+        text("Imagem Maior que o espelho", this.width/1.30, 80);
+        stroke(0, 255, 0);//cor das linhas de reflexão
+        line(pObjeto.x, pObjeto.y, equacaoRetaX(pObjeto.x, pObjeto.y, pFoco.x, pFoco.y, this.height), this.height);
+      }
+      
+      if(pObjeto.x<pFoco.x){//imagem antes do foco
+        if(tamanhoCerto){
+          //Inicio Imagem
+          stroke(255, 0, 0);//cor das linhas de reflexo
+          line(pImagem.x, pImagem.y, pImagem.x , this.height/2);
+          line(pImagem.x, pImagem.y, pImagem.x + 5, pImagem.y - 5);
+          line(pImagem.x, pImagem.y, pImagem.x - 5, pImagem.y - 5);
+          //Fim Imagem
+          
+          if(pImagem.x < pCentro.x){
+            text("Imagem: Real, Invertida e Maior", this.width/1.30, 65);
+          }else if(pImagem.x >pCentro.x){
+            text("Imagem: Real, Invertida e Menor", this.width/1.30, 65);
+          }else{
+            text("Imagem: Real, Invertida e Igual", this.width/1.30, 65);
+          }
         }
         
-        //if(pImagem.x < this.width/2){
-        //text("Aumento Linear: "+ aumentoLinear(this.width/2 - pImagem.x,this.width/2 - pObjeto.x), 330, 80);
-        //}else{
-        //  text("Aumento Linear: "+ aumentoLinear(pImagem.x - this.width/2 ,this.width/2 - pObjeto.x), 330, 80);
-        //}
-        //text("objetoXFoco: "+ (pFoco.x - pObjeto.x), 330, 95);
-        //text("ImagemXEspelho: "+ (pImagem.x - this.width/2), 330, 110);
-        //text("vImagem: "+ (vImagem), 330, 125);
-        //text("vObjeto: "+ (vObjeto), 330, 140);
-        //text("Gauss: "+ (equacaoGauss(vFoco, this.width/2 - pObjeto.x)), 330, 155);
-        
-        pitagoras = (float) Math.sqrt(((raio*raio)-(vImagem*vImagem)));//distancia entre o centro do espelho e o ponto
-        PVector ponto2 = new PVector((pCentro.x+ pitagoras),this.height/2 - vImagem);
-        stroke(0, 255, 0);//cor das linhas de reflexo
-        line(pFoco.x, pFoco.y, ponto2.x , ponto2.y);
-        line(ponto2.x, ponto2.y, pImagem.x, pImagem.y);
       }else if(pObjeto.x > pFoco.x){//imagem depois do foco
         pImagem.y -= 2*vImagem;
         //Inicio Objeto
@@ -106,7 +115,7 @@ void draw() {
         line(pImagem.x, pImagem.y, pImagem.x + 5, pImagem.y + 5);
         //Fim Objeto
         
-        text("Imagem: Virtual, Direita e Maior", 330, 65);
+        text("Imagem: Virtual, Direita e Maior", this.width/1.30, 65);
         
         stroke(0, 255, 0);//cor das linhas de reflexo
         line(pObjeto.x, pObjeto.y, ponto1.x, ponto1.y);//topo do objeto ate espelho
@@ -120,7 +129,7 @@ void draw() {
         
         
       }else{//imagem em cima do foco
-        text("Imagem: Imprópria", 330, 65);
+        text("Imagem: Imprópria", this.width/1.30, 65);
         stroke(0, 255, 0);//cor das linhas de reflexo
         line(pObjeto.x, pObjeto.y, ponto1.x, ponto1.y);//topo do objeto ate espelho
         line(ponto1.x, ponto1.y, equacaoRetaX(ponto1.x, ponto1.y, pFoco.x, pFoco.y, this.height), this.height);//espelho ate o infinito
@@ -181,12 +190,13 @@ void draw() {
     }
   }
   
-  //centimetros = pixels
-  text("Distancia entre o objeto e o espelho: " + Math.abs(this.width/2 -pObjeto.x) + " cm", 330, 35);
-  text("Distancia entre a imagem e o espelho: " + Math.abs(this.width/2 -pImagem.x) + " cm", 330, 50);
-  text("Tamanho do Objeto: " + (vObjeto) + " cm", 330, 80);
-  text("Tamanho da Imagem: " + Math.abs(vImagem) + " cm", 330, 95);
-  
+  if(tamanhoCerto){
+    //centimetros = pixels
+    text("Distancia entre o objeto e o espelho: " + Math.abs(this.width/2 -pObjeto.x) + " cm", this.width/1.30, 35);
+    text("Distancia entre a imagem e o espelho: " + Math.abs(this.width/2 -pImagem.x) + " cm", this.width/1.30, 50);
+    text("Tamanho do Objeto: " + (vObjeto) + " cm", this.width/1.30, 80);
+    text("Tamanho da Imagem: " + Math.abs(vImagem) + " cm", this.width/1.30, 95);
+  }
   stroke(255, 255, 255);//cor da linha
   //Linha Horizontal
   line(0, this.height/2, this.width, this.height/2);
@@ -199,6 +209,10 @@ void draw() {
   //Inicio Espelho
   noFill();//preenchimento interior do arco
   stroke(204, 102, 0);//cor do arco
-  arc(this.width/2 - raio, this.height/2, raio*2, raio*2, -QUARTER_PI, QUARTER_PI);//arco(Espelho)
+  arc(this.width/2 - raio, this.height/2, raio*2, raio*2, -HALF_PI/9, HALF_PI/9);//arco(Espelho) formando no máximo 10 Graus com o centro
   //Fim Espelho
+  
+  //-- Regras de Nitidez do Espelho
+  //http://alunosonline.uol.com.br/fisica/condicoes-gauss-para-espelhos-esfericos.html
+  //http://papofisico.tumblr.com/post/35741884495/condi%C3%A7%C3%A3o-de-nitidez-de-gauss
 }
