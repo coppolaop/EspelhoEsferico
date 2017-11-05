@@ -172,8 +172,8 @@ void draw() {
       pitagoras = (float) Math.sqrt(((raio*raio)-(vImagem*vImagem)));//distancia entre o centro do espelho e o ponto 2
       PVector ponto2 = new PVector((pCentro.x+ pitagoras),this.height/2 - vImagem);//ponto do espelho onde o topo passa pelo foco e é refletido
       
-      if(pObjeto.x<-pFoco.x){//imagem antes do foco
-        if(alturaMaxima>vObjeto){
+      if(pObjeto.x<pFoco.x){//imagem antes do foco
+        if(alturaMaxima>-vObjeto){
           stroke(0, 255, 0);//cor das linhas de reflexão
           line(pObjeto.x, pObjeto.y, ponto1.x, ponto1.y);//topo do objeto ate espelho
           stroke(0, 255, 255);//cor das linhas de refletidas
@@ -194,7 +194,7 @@ void draw() {
           tamanhoCerto = false;
           text("Imagem Maior que o espelho", this.width/1.30, 80);
           stroke(0, 255, 0);//cor das linhas de reflexão
-          line(pObjeto.x, pObjeto.y, equacaoRetaX(pObjeto.x, pObjeto.y, pFoco.x, pFoco.y, this.height), this.height);
+          line(pObjeto.x, pObjeto.y, equacaoRetaX(pObjeto.x, pObjeto.y, pFoco.x, pFoco.y, 0), 0);
         }
         
         if(tamanhoCerto){
@@ -242,7 +242,7 @@ void draw() {
           text("Objeto Maior que o espelho", this.width/1.30, 65);
           line(pObjeto.x, pObjeto.y, this.width, equacaoRetaY(pObjeto.x, pObjeto.y, ponto1.x, ponto1.y, this.width));//topo do objeto ate o ponto 1 do espelho
           line(pObjeto.x, pObjeto.y, this.width/2, this.height/2);//topo do objeto ate o centro da imagem
-          line(this.width/2, this.height/2, equacaoRetaX(pObjeto.x, pObjeto.y + 2*vObjeto, this.width/2, this.height/2, this.height), this.height);//centro da imagem até o canto
+          line(this.width/2, this.height/2, equacaoRetaX(pObjeto.x, pObjeto.y + 2*vObjeto, this.width/2, this.height/2, 0), 0);//centro da imagem até o canto
         }
         
       }else{//Objeto em cima do foco
