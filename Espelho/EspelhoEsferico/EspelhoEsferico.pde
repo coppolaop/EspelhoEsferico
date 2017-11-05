@@ -98,11 +98,11 @@ void draw() {
           //Fim Imagem
           
           if(pImagem.x < pCentro.x){
-            text("Imagem: Real, Invertida e Maior", this.width/1.30, 65);
+            text("Imagem: virtual, Invertida e Maior", this.width/1.30, 65);
           }else if(pImagem.x >pCentro.x){
-            text("Imagem: Real, Invertida e Menor", this.width/1.30, 65);
+            text("Imagem: Virtual, Invertida e Menor", this.width/1.30, 65);
           }else{
-            text("Imagem: Real, Invertida e Igual", this.width/1.30, 65);
+            text("Imagem: Virtual, Invertida e Igual", this.width/1.30, 65);
           }
         }
         
@@ -117,7 +117,7 @@ void draw() {
           line(pImagem.x, pImagem.y, pImagem.x + 5, pImagem.y + 5);
           //Fim Imagem
             
-          text("Imagem: Virtual, Direita e Maior", this.width/1.30, 65);
+          text("Imagem: Real, Direita e Maior", this.width/1.30, 65);
           
           stroke(0, 255, 0);//cor das linhas de reflexão
           line(pObjeto.x, pObjeto.y, ponto1.x, ponto1.y);//topo do objeto ate o ponto 1 do espelho
@@ -206,11 +206,11 @@ void draw() {
           //Fim Imagem
           
           if(pImagem.x < pCentro.x){
-            text("Imagem: Real, Invertida e Maior", this.width/1.30, 65);
+            text("Imagem: Virtual, Invertida e Maior", this.width/1.30, 65);
           }else if(pImagem.x >pCentro.x){
-            text("Imagem: Real, Invertida e Menor", this.width/1.30, 65);
+            text("Imagem: Virtual, Invertida e Menor", this.width/1.30, 65);
           }else{
-            text("Imagem: Real, Invertida e Igual", this.width/1.30, 65);
+            text("Imagem: Virtual, Invertida e Igual", this.width/1.30, 65);
           }
         }
         
@@ -225,7 +225,7 @@ void draw() {
           line(pImagem.x, pImagem.y, pImagem.x - 5, pImagem.y - 5);
           //Fim Imagem
             
-          text("Imagem: Virtual, Direita e Maior", this.width/1.30, 65);
+          text("Imagem: Real, Direita e Maior", this.width/1.30, 65);
           
           stroke(0, 255, 0);//cor das linhas de refletidas
           line(pObjeto.x, pObjeto.y, ponto1.x, ponto1.y);//topo do objeto ate o ponto 1 do espelho
@@ -297,7 +297,7 @@ void draw() {
         line(pImagem.x, pImagem.y, pImagem.x + 5, pImagem.y + 5);
          //Fim Imagem
         
-        text("Imagem: Virtual, Direita e Menor", this.width/1.30, 65);
+        text("Imagem: Real, Direita e Menor", this.width/1.30, 65);
       }else{
         tamanhoCerto = false;
         text("Objeto Maior que o espelho", this.width/1.30, 65);
@@ -337,7 +337,7 @@ void draw() {
         line(pImagem.x, pImagem.y, pImagem.x - 5, pImagem.y - 5);
          //Fim Imagem
         
-        text("Imagem: Virtual, Direita e Menor", this.width/1.30, 65);
+        text("Imagem: Real, Direita e Menor", this.width/1.30, 65);
       }else{
         tamanhoCerto = false;
         text("Objeto Maior que o espelho", this.width/1.30, 65);
