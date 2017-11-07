@@ -371,6 +371,8 @@ void draw() {
   arc(this.width/2 - raio, this.height/2, raio*2, raio*2, -HALF_PI/9, HALF_PI/9);//arco(Espelho) formando no máximo 10 Graus com o centro
   //Fim Espelho
   
+  text("github.com/coppolaop", 5, this.height - 15);//Autor
+  
   //-- Regras de Nitidez do Espelho
   //http://alunosonline.uol.com.br/fisica/condicoes-gauss-para-espelhos-esfericos.html
   //http://papofisico.tumblr.com/post/35741884495/condi%C3%A7%C3%A3o-de-nitidez-de-gauss

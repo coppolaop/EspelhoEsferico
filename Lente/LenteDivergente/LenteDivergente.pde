@@ -85,7 +85,7 @@ void draw() {
         tamanhoCerto = false;
         text("Objeto Maior que o espelho", this.width/1.30, 65);
         stroke(0, 255, 0);//cor das linhas de reflexão
-        line(pObjeto.x, pObjeto.y, 0, equacaoRetaY(pObjeto.x, pObjeto.y,this.width/2, this.height/2, 0));//topo do objeto ate espelho
+        line(pObjeto.x, pObjeto.y, this.width/2, this.height/2);//topo do objeto ate espelho
         line(pObjeto.x, pObjeto.y, 0, equacaoRetaY(pObjeto.x, pObjeto.y, this.width/2, pObjeto.y, 0));//topo do objeto ate o canto
       }
     }else{//imagem na parte de baixo
@@ -121,7 +121,7 @@ void draw() {
         tamanhoCerto = false;
         text("Objeto Maior que o espelho", this.width/1.30, 65);
         stroke(0, 255, 0);//cor das linhas de reflexo
-        line(pObjeto.x, pObjeto.y, 0, equacaoRetaY(pObjeto.x, pObjeto.y,this.width/2, this.height/2, 0));//topo do objeto ate o canto
+        line(pObjeto.x, pObjeto.y, this.width/2, this.height/2);//topo do objeto ate o canto
         line(pObjeto.x, pObjeto.y, 0, equacaoRetaY(pObjeto.x, pObjeto.y, this.width/2, pObjeto.y, 0));//topo do objeto ate o canto
       }
     }
@@ -155,6 +155,8 @@ void draw() {
   line(this.width/2 , this.height/2- vCentro*0.1763269807, this.width/2, this.height/2+ vCentro*0.1763269807);
   arc(this.width/2 + raio, this.height/2, raio*2, raio*2, -HALF_PI/9-PI, HALF_PI/9-PI);//arco(lente) formando no máximo 10 Graus com o centro
   //Fim Espelho
+  
+  text("github.com/coppolaop", 5, this.height - 15);//Autor
   
   //-- Regras de Nitidez do Espelho
   //http://alunosonline.uol.com.br/fisica/condicoes-gauss-para-espelhos-esfericos.html

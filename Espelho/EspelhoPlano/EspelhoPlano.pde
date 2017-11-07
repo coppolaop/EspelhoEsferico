@@ -35,4 +35,6 @@ void draw() {
   line(320, 0, 320, 360);
   stroke(255);
   
+  text("github.com/coppolaop", 5, this.height - 15);//Autor
+  
 }
